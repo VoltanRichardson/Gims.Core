@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+	  <RootNamespace>Gims.Core</RootNamespace>
+	  <AssemblyName>Gims.Core</AssemblyName>
+  </PropertyGroup>
+
+	<PropertyGroup>
+		<EnableNETAnalyzers>false</EnableNETAnalyzers>
+	</PropertyGroup>
+	
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\" />
+    <Folder Include="Shared\" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.11" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.11" />  
+  </ItemGroup>
+
+
+
+</Project>
