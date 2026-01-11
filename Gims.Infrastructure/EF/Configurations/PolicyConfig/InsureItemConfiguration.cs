@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Gims.Core.Domain.Policy;
 
 public class InsureItemConfiguration : IEntityTypeConfiguration<InsureItem>
 {
@@ -10,11 +9,20 @@ public class InsureItemConfiguration : IEntityTypeConfiguration<InsureItem>
 
         builder.HasKey(i => i.InsureItemId);
 
-        builder.Property(i => i.Description)
-               .HasMaxLength(500)
+        builder.Property(i => i.Name)
+               .HasMaxLength(200)
                .IsRequired();
 
-        // Add other properties as needed
-        // builder.Property(i => i.SumInsured) — only if it exists
+        builder.Property(i => i.Description)
+               .HasMaxLength(500);
+
+        builder.Property(i => i.SumInsured);
+
+        builder.Property(i => i.Usage)
+               .HasMaxLength(100);
+
+        // Navigation (no direct many-to-many here)
+        builder.Navigation(i => i.GroupLinks).AutoInclude(false);
+        builder.Navigation(i => i.RiskLinks).AutoInclude(false);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Gims.Core.Domain.Policy;
 
 public class InsureItemGroupConfiguration : IEntityTypeConfiguration<InsureItemGroup>
 {
@@ -16,5 +15,13 @@ public class InsureItemGroupConfiguration : IEntityTypeConfiguration<InsureItemG
 
         builder.Property(g => g.Description)
                .HasMaxLength(500);
+
+        // Optional FK to Policy
+        builder.HasOne(g => g.Policy)
+               .WithMany(p => p.ItemGroups)
+               .HasForeignKey(g => g.PolicyId)
+               .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Navigation(g => g.ItemLinks).AutoInclude(false);
     }
 }

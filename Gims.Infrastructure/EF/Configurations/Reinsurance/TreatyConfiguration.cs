@@ -2,46 +2,44 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Gims.Core.Domain.Reinsurance;
 
-public class TreatyConfiguration : IEntityTypeConfiguration<Treaty>
+namespace Gims.Infrastructure.EF.Configurations.Reinsurance
 {
-    public void Configure(EntityTypeBuilder<Treaty> builder)
+    public class TreatyConfiguration : IEntityTypeConfiguration<Treaty>
     {
-        builder.ToTable("Treaties");
+        public void Configure(EntityTypeBuilder<Treaty> builder)
+        {
+            builder.HasKey(t => t.TreatyId);
 
-        builder.HasKey(t => t.TreatyId);
+            builder.Property(t => t.TreatyNumber)
+                   .IsRequired()
+                   .HasMaxLength(50);
 
-        builder.Property(t => t.TreatyNumber)
-               .HasMaxLength(50)
-               .IsRequired();
+            builder.Property(t => t.Name)
+                   .IsRequired()
+                   .HasMaxLength(200);
 
-        builder.Property(t => t.Name)
-               .HasMaxLength(200)
-               .IsRequired();
+            builder.Property(t => t.Type)
+                   .IsRequired();
 
-        builder.Property(t => t.Type)
-               .HasConversion<string>() // TreatyType enum → string
-               .HasMaxLength(50)
-               .IsRequired();
+            builder.Property(t => t.Capacity)
+                   .HasColumnType("decimal(18,2)");
 
-        builder.Property(t => t.Capacity)
-               .HasColumnType("decimal(18,2)");
+            builder.Property(t => t.Retention)
+                   .HasColumnType("decimal(18,2)");
 
-        builder.Property(t => t.Retention)
-               .HasColumnType("decimal(18,2)");
+            builder.Property(t => t.Participation)
+                   .HasColumnType("decimal(5,2)");
 
-        builder.Property(t => t.Participation)
-               .HasColumnType("decimal(5,2)");
+            builder.Property(t => t.EffectiveFrom)
+                   .IsRequired();
 
-        builder.Property(t => t.EffectiveFrom)
-               .IsRequired();
+            builder.Property(t => t.EffectiveTo)
+                   .IsRequired();
 
-        builder.Property(t => t.EffectiveTo)
-               .IsRequired();
-
-        // Many-to-many relationship: Treaty ↔ Reinsurers
-        builder.HasMany(t => t.TreatyReinsurers)
-               .WithMany();
-        // If you want more control (e.g. allocation %, role), 
-        // introduce a join entity like TreatyReinsurer.
+            // Relationship: Treaty ↔ TreatyReinsurers
+            builder.HasMany(t => t.TreatyReinsurers)
+                   .WithOne(tr => tr.Treaty)
+                   .HasForeignKey(tr => tr.TreatyId);
+        }
     }
 }
