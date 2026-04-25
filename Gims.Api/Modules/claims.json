@@ -1,0 +1,17 @@
+{
+  "id": "55555555-5555-5555-5555-555555555555",
+  "code": "claims",
+  "name": "Claims",
+  "description": "Claims management module",
+  "routePrefix": "/claims",
+  "defaultRoute": "/claims/list",
+  "icon": "gavel",
+  "category": "core",
+  "tabPriority": 20,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "ClaimsAdmin" ],
+  "submodules": []
+}

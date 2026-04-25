@@ -1,0 +1,19 @@
+﻿@namespace Gims.UI.ShellUI.Workspace
+
+@using Microsoft.AspNetCore.Components
+@using Gims.UI.ShellUI.Workspace
+
+
+<div class="workspace-content">
+    @if (Workspace.CurrentModule is null)
+    {
+        <div class="empty-state">
+            Select a module to begin.
+        </div>
+    }
+    else
+    {
+        <DynamicComponent Type="Workspace.CurrentModule.Component"
+                          Parameters="Workspace.CurrentModule.ComponentParameters" />
+    }
+</div>

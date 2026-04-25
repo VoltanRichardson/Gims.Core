@@ -1,0 +1,17 @@
+{
+  "id": "22222222-2222-2222-2222-222222222222",
+  "code": "customer",
+  "name": "Customer",
+  "description": "Customer and party management",
+  "routePrefix": "/customer",
+  "defaultRoute": "/customer/list",
+  "icon": "group",
+  "category": "core",
+  "tabPriority": 30,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "CustomerAdmin" ],
+  "submodules": []
+}

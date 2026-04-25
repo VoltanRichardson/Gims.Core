@@ -1,0 +1,14 @@
+﻿@page "/activity"
+@using Gims.UI.ShellUI.Workspace
+@using Microsoft.AspNetCore.Components.Web
+
+<h3>ActivityUI</h3>
+
+<button @onclick='() => Console.WriteLine(" Activity button clicked")'>
+    Test Button
+</button>
+
+@code {
+    [CascadingParameter]
+    public WorkspaceController Workspace { get; set; }
+}

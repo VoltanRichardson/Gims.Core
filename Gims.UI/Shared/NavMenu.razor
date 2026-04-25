@@ -1,0 +1,82 @@
+﻿@using Gims.App.Modules.Navigation
+
+@inject NavigationBuilder NavigationBuilder
+
+<nav class="nav-menu">
+    <ul class="nav-list">
+        @foreach (var module in NavigationBuilder.Build())
+        {
+            <li class="nav-item">
+                <a href="@module.Route" class="nav-link">
+                    @if (!string.IsNullOrWhiteSpace(module.Icon))
+                    {
+                        <i class="@module.Icon"></i>
+                    }
+                    <span>@module.Title</span>
+                </a>
+
+                @if (module.Children?.Any() == true)
+                {
+                    <ul class="nav-sub-list">
+                        @foreach (var sub in module.Children)
+                        {
+                            <li class="nav-sub-item">
+                                <a href="@sub.Route" class="nav-sub-link">
+                                    @if (!string.IsNullOrWhiteSpace(sub.Icon))
+                                    {
+                                        <i class="@sub.Icon"></i>
+                                    }
+                                    <span>@sub.Title</span>
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    </ul>
+</nav>
+
+<style>
+    .nav-menu {
+        width: 240px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-list, .nav-sub-list {
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+    }
+
+    .nav-item {
+        margin-bottom: 4px;
+    }
+
+    .nav-link, .nav-sub-link {
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        text-decoration: none;
+        color: #333;
+        border-radius: 4px;
+    }
+
+        .nav-link:hover, .nav-sub-link:hover {
+            background-color: #f0f0f0;
+        }
+
+    .nav-sub-list {
+        margin-left: 20px;
+        margin-top: 4px;
+    }
+
+    .nav-sub-item {
+        margin-bottom: 2px;
+    }
+
+    i {
+        margin-right: 8px;
+    }
+</style>

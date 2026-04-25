@@ -18,12 +18,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
-    <Folder Include="Shared\" />
+    <Folder Include="Common\Enums\" />
+    <Folder Include="Common\Interfaces\" />
+    <Folder Include="Common\Extensions\" />
+    <Folder Include="Common\ValueObjects\" />
+    <Folder Include="Customer\" />
+    <Folder Include="Claims\" />
+    <Folder Include="Billing\" />
+    <Folder Include="Report\" />
+    <Folder Include="SysMan\Pages\" />
   </ItemGroup>
 
   <ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
+	  <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="9.0.11" />
 	  <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.11" />  
   </ItemGroup>

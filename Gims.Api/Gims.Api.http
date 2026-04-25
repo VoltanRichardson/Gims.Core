@@ -1,0 +1,6 @@
+@Gims.Api_HostAddress = http://localhost:5118
+
+GET {{Gims.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

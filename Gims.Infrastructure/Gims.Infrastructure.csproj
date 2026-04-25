@@ -16,11 +16,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="EF\Configurations\SysMan\Seed\Modules\" />
+    <Folder Include="EF\Configurations\SysMan\Seed\SubModules\" />
+    <Folder Include="Logging\" />
+    <Folder Include="External\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="SysManPersistence\" />
     <Folder Include="Repositories\" />
     <Folder Include="Storage\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
       <PrivateAssets>all</PrivateAssets>
@@ -31,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Gims.Contracts\Gims.Contracts.csproj" />
     <ProjectReference Include="..\Gims.Core\Gims.Core.csproj" />
   </ItemGroup>
 

@@ -1,0 +1,17 @@
+{
+  "id": "77777777-7777-7777-7777-777777777777",
+  "code": "report",
+  "name": "Reporting",
+  "description": "Reporting and analytics module",
+  "routePrefix": "/report",
+  "defaultRoute": "/report/dashboard",
+  "icon": "analytics",
+  "category": "reporting",
+  "tabPriority": 60,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "ReportAdmin" ],
+  "submodules": []
+}

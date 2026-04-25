@@ -1,4 +1,4 @@
-﻿using Gims.Core.Domain.Policy;
+﻿using Gims.Core.Policy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

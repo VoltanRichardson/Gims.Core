@@ -1,0 +1,129 @@
+﻿@page "/sysman/roles/rolelist"
+
+@using Gims.App.Modules.SysMan.Dto;
+@using Gims.Contracts.Dto
+@using Gims.Core.SysMan.Entities
+@using Gims.UI.Services
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.JSInterop
+
+@inject RolesApiClient RolesApi
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
+<div class="sysman-header d-flex justify-content-between align-items-center">
+    <h2><i class="bi bi-shield-lock"></i> Roles</h2>
+</div>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/sysman">SysMan</a></li>
+        <li class="breadcrumb-item active">Roles</li>
+    </ol>
+</nav>
+
+<div class="page-body">
+
+    <button class="btn btn-primary mb-3" @onclick="AddRole">
+        <i class="bi bi-plus-circle"></i> Add Role
+    </button>
+
+    <table class="table table-bordered table-hover">
+        <thead class="table-light">
+            <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in roles)
+            {
+                <tr class="hover-highlight">
+                    <td><i class="bi bi-shield-lock"></i></td>
+                    <td>@r.Name</td>
+                    <td>@r.Id</td>
+                    @*<td>@r.Description</td>*@
+                    <td>
+                        <button class="btn btn-sm btn-outline-primary me-1" @onclick="() => EditRole(r.Id)">
+                            <i class="bi bi-pencil-square"></i>
+                        </button>
+
+                        <button class="btn btn-sm btn-outline-danger" @onclick="() => AskDelete(r)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteRoleModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm Delete</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                Are you sure you want to delete
+                <strong>@roleToDelete?.Name</strong>?
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button class="btn btn-danger" @onclick="ConfirmDeleteRole">
+                    <i class="bi bi-trash"></i> Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private RoleDto? roleToDelete;
+    private List<RoleDto>? roles;
+
+    protected override async Task OnInitializedAsync()
+    {
+        roles = await RolesApi.GetRolesAsync();
+    }
+
+    void AddRole() => Navigation.NavigateTo("/sysman/roles/add");
+    void EditRole(Guid id) => Navigation.NavigateTo($"/sysman/roles/edit/{id}");
+
+    private async Task AskDelete(RoleDto role)
+    {
+        roleToDelete = role;
+
+        var modal = await JS.InvokeAsync<IJSObjectReference>(
+            "bootstrap.Modal.getOrCreateInstance",
+            "#deleteRoleModal"
+        );
+
+        await modal.InvokeVoidAsync("show");
+    }
+
+    private async Task ConfirmDeleteRole()
+    {
+        if (roleToDelete is not null)
+        {
+            await RolesApi.DeleteRoleAsync(roleToDelete.Id);
+            roles?.Remove(roleToDelete);
+        }
+
+        var modal = await JS.InvokeAsync<IJSObjectReference>(
+            "bootstrap.Modal.getOrCreateInstance",
+            "#deleteRoleModal"
+        );
+
+        await modal.InvokeVoidAsync("hide");
+    }
+}

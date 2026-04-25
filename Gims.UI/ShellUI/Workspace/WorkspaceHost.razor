@@ -1,0 +1,68 @@
+﻿@using Gims.UI.Modules.Dashboard
+@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Rendering
+@using Gims.UI.ShellUI.Workspace
+@rendermode RenderMode.InteractiveServer
+
+
+@inject WorkspaceController Workspace
+
+@namespace Gims.UI.ShellUI.Workspace
+
+@if (Workspace.CurrentModule is not null)
+{
+    var module = Workspace.CurrentModule;
+    var componentType = module.Component;
+
+    if (componentType is not null)
+    {
+        try
+        {
+            <InteractiveHost Type="@componentType"
+                Parameters="@Workspace.CurrentParameters" /> 
+                             
+            @* <DynamicComponent Type="@componentType" />  *@
+            @* <InteractiveHost Type="@componentType" /> *@
+
+           @* <DynamicComponent Type="@CurrentComponent"
+                                 Parameters="@Workspace.CurrentParameters"
+                              @render-mode="InteractiveServer" /> *@
+        }
+        catch (Exception ex)
+        {
+            <pre style="color:red">Error rendering module: @ex.Message</pre>
+        }
+    }
+    else
+    {
+        <p>Module has no component.</p>
+    }
+}
+else
+{
+    <p>Select a module from the navigation or picker.</p>
+}
+
+@code {
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!; 
+    [Parameter] public Type Type { get; set; } = default!;
+    [Parameter] public IDictionary<string, object>? Parameters { get; set; }
+
+     protected override void OnInitialized()
+    {
+        Workspace.OnChange += HandleWorkspaceChange;
+    }
+
+    private void HandleWorkspaceChange()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        Console.WriteLine($">>> WorkspaceHost.OnAfterRender firstRender={firstRender}");
+    }
+}
+
+

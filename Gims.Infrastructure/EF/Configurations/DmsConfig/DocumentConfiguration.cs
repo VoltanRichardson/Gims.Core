@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Gims.Core.Domain.Dms;
+using Gims.Core.Dms;
 
 public class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {

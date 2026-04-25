@@ -1,0 +1,17 @@
+{
+  "id": "44444444-4444-4444-4444-444444444444",
+  "code": "billing",
+  "name": "Billing",
+  "description": "Billing and receivables module",
+  "routePrefix": "/billing",
+  "defaultRoute": "/billing/overview",
+  "icon": "payments",
+  "category": "finance",
+  "tabPriority": 10,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "BillingAdmin" ],
+  "submodules": []
+}

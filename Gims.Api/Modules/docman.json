@@ -1,0 +1,17 @@
+{
+  "id": "66666666-6666-6666-6666-666666666666",
+  "code": "docman",
+  "name": "Document Management",
+  "description": "Document storage and retrieval",
+  "routePrefix": "/docman",
+  "defaultRoute": "/docman/list",
+  "icon": "folder",
+  "category": "support",
+  "tabPriority": 40,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "DocAdmin" ],
+  "submodules": []
+}

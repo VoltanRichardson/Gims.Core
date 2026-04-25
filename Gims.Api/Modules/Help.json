@@ -1,0 +1,17 @@
+{
+  "id": "99999999-9999-9999-9999-999999999999",
+  "code": "help",
+  "name": "Help",
+  "description": "Gims Help Module",
+  "routePrefix": "/help",
+  "defaultRoute": "/help",
+  "icon": "analytics",
+  "category": "support",
+  "tabPriority": 100,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "User", "Guest" ],
+  "submodules": []
+}

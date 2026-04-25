@@ -1,0 +1,24 @@
+﻿@using Microsoft.AspNetCore.Components.Rendering
+@using Gims.UI.Modules.SysMan
+@using Gims.UI.Shared.ModuleLayout         
+
+<ModuleLayout Sidebar="SidebarContent">
+    
+    @if (CurrentPage is not null)
+    {
+        <DynamicComponent Type="CurrentPage" />
+
+
+
+    }
+    else
+    {
+        <p class="placeholder">Select an option from the sidebar.</p>
+    }
+</ModuleLayout>
+
+@code {
+    private RenderFragment SidebarContent =>@<CascadingValue Value="this">
+            <SysManSidebar />
+        </CascadingValue>;
+}

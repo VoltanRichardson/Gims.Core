@@ -1,0 +1,21 @@
+﻿@using Gims.App.AppState
+
+@inject AppState AppState
+
+<div class="activity-tab">
+    <h3>Recent Activity</h3>
+
+    @if (AppState.RecentActivity.Count == 0)
+    {
+        <p>No activity yet.</p>
+    }
+    else
+    {
+        <ul>
+            @foreach (var item in AppState.RecentActivity)
+            {
+                <li>@item</li>
+            }
+        </ul>
+    }
+</div>

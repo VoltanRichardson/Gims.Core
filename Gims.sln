@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.14.36705.20
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11605.240
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gims.Core", "Gims.Core\Gims.Core.csproj", "{04A2DFCA-D593-4B76-B823-4BE881F66509}"
 EndProject
@@ -15,7 +15,15 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}"
 	ProjectSection(SolutionItems) = preProject
 		global.json = global.json
+		Gims.Api\Modules\modules.json = Gims.Api\Modules\modules.json
+		Gims.Api\Modules\submodules.json = Gims.Api\Modules\submodules.json
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gims.Contracts", "Gims.Contracts\Gims.Contracts.csproj", "{59A104E9-E5DD-4A0F-B459-657A3326D896}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gims.Api", "Gims.Api\Gims.Api.csproj", "{A1A05280-3103-4399-8BCA-D9BE4D8F53A0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gims.UI", "Gims.UI\Gims.UI.csproj", "{513FDBD4-F172-4C59-A6F2-A7A1D705D404}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +43,18 @@ Global
 		{CD4B8996-E55E-4BB3-B2ED-C71E4176B1D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD4B8996-E55E-4BB3-B2ED-C71E4176B1D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD4B8996-E55E-4BB3-B2ED-C71E4176B1D0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59A104E9-E5DD-4A0F-B459-657A3326D896}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59A104E9-E5DD-4A0F-B459-657A3326D896}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59A104E9-E5DD-4A0F-B459-657A3326D896}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59A104E9-E5DD-4A0F-B459-657A3326D896}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1A05280-3103-4399-8BCA-D9BE4D8F53A0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1A05280-3103-4399-8BCA-D9BE4D8F53A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1A05280-3103-4399-8BCA-D9BE4D8F53A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1A05280-3103-4399-8BCA-D9BE4D8F53A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{513FDBD4-F172-4C59-A6F2-A7A1D705D404}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{513FDBD4-F172-4C59-A6F2-A7A1D705D404}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{513FDBD4-F172-4C59-A6F2-A7A1D705D404}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{513FDBD4-F172-4C59-A6F2-A7A1D705D404}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

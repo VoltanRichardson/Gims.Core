@@ -1,0 +1,77 @@
+﻿@using Gims.UI.Shared.ModuleLayout
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Gims.UI.Registry
+@using Gims.UI.ShellUI.Workspace
+
+@inject WorkspaceController Workspace
+
+@namespace Gims.UI.ShellUI.Workspace
+
+<div class="workspace-tabs-container">
+    <div class="workspace-tabs">
+        @if (Workspace.Tabs is not null && Workspace.Tabs.Any())
+        {
+            @foreach (var module in Workspace.Tabs)
+            {
+                var isActive = module == Workspace.CurrentModule;
+
+                <div class="workspace-tab @(isActive ? "active" : "")"
+                     @onclick="@(() => OnTabClicked(module))">
+
+                    <span class="tab-title">@module.Title</span>
+
+                    @if (!module.IsPermanent)
+                    {
+                        <button class="tab-close"
+                                @onclick="@(() => OnCloseClicked(module))"
+                                @onclick:stopPropagation>
+                            ✕
+                        </button>
+                    }
+                </div>
+            }
+
+        }
+        else
+        {
+            <div class="workspace-tab">
+                <span class="tab-title">No open modules</span>
+            </div>
+        }
+        <!-- OPEN MODULE BUTTON -->
+        <button class="workspace-tab add-tab-button"
+                @onclick="ShowModulePicker">
+            <span class="add-tab-icon">+</span>
+            <span class="add-tab-text">Open Module</span>
+        </button>
+    </div>
+    
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        Workspace.OnChange += HandleWorkspaceChange;
+    }
+    // OPEN MODULE PICKER
+    private void ShowModulePicker()
+    {
+        Workspace.ShowPicker();
+    }
+
+    private void HandleWorkspaceChange()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void OnTabClicked(UiModule module)
+    {
+        Workspace.Activate(module);
+    }
+
+    private void OnCloseClicked(UiModule module)
+    {
+        Workspace.Close(module);
+    }
+}

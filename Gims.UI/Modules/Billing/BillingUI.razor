@@ -1,0 +1,15 @@
+﻿@page "/billing"
+
+@using Gims.UI.ShellUI.Workspace
+@using Microsoft.AspNetCore.Components.Web
+
+<h3>Billing UI Home page</h3>
+
+<button @onclick='() => Console.WriteLine(" Billing button clicked")'>
+    Test Button
+</button>
+
+@code {
+    [CascadingParameter]
+    public WorkspaceController Workspace { get; set; }
+}

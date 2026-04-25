@@ -1,0 +1,46 @@
+﻿@using Gims.UI.Modules.SysMan.AccessControl;
+@using Gims.UI.Modules.SysMan.LookUps;
+@using Gims.UI.Modules.SysMan.Settings;
+
+@if (Parent is null)
+{
+    <p style="color:red">Parent is NULL</p>
+}
+
+<div class="sysman-section">
+    <div class="sysman-section-title">Access Control</div>
+
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(ModulesPage))">Modules</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(SubmodulesPage))">SubModules</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(RolesPage))">Roles</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(PermissionsPage))">Permissions</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(UsersPage))">Users</button>
+</div>
+
+<!-- LOOKUPS -->
+<div class="sysman-section">
+    <div class="sysman-section-title">Lookups</div>
+
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(CountriesPage))">Countries</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(CurrenciesPage))">Currencies</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(RegionsPage))">Regions</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(VehicleTypesPage))">Vehicle Types</button>
+    <!-- etc -->
+</div>
+
+<!-- SETTINGS -->
+<div class="sysman-section">
+    <div class="sysman-section-title">Settings</div>
+
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(ThemesPage))">Themes</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(NumberingPage))">Numbering</button>
+    <button class="menu-item" @onclick="() => Parent.LoadPage(typeof(DocumentTemplatesPage))">Document Templates</button>
+    <button class="menu-item @(Parent.CurrentPage == typeof(ModuleUISettings) ? "active" : "")"
+            @onclick="() => Parent.LoadPage(typeof(ModuleUISettings))">
+        Module UI Settings
+    </button>
+</div>
+
+@code {
+    [CascadingParameter] public SysManModule Parent { get; set; }
+}

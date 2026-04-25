@@ -1,0 +1,132 @@
+﻿@namespace Gims.UI.ShellUI
+
+@using Gims.UI.Modules.Dashboard
+@using Gims.UI.ShellUI.Workspace
+@using Microsoft.AspNetCore.Components.Web
+
+@inject WorkspaceController Workspace
+@implements IDisposable
+
+<div class="shell-root @CurrentTheme"> 
+    <!-- Unified chrome wrapper -->
+        <!-- HEADER -->
+          <header class="shell-header">
+
+            <div class="shell-left">
+                <span class="shell-logo">GIMS Portal</span>
+                <div class="user-badge">VR</div>
+            </div>
+
+            <div class="shell-right">
+                <button class="theme-toggle" @onclick="ToggleTheme">🌓</button>
+
+                <select class="theme-selector" @onchange="SetTheme">
+                    @foreach (var theme in Themes)
+                    {
+                        <option value="@theme">@theme</option>
+                    }
+                </select>
+
+                <select class="module-selector" @onchange="OpenModuleFromDropdown">
+                    <option value="">Select Module...</option>
+                    @foreach (var mod in Workspace.AvailableModules)
+                    {
+                        <option value="@mod.Code">@mod.Name</option>
+                    }
+                </select>
+
+                <button class="logout-btn" @onclick="Logout">Logout</button>
+            </div>
+
+        </header>  
+
+        <!-- TAB BAR -->
+        
+            <div class="workspace-tabs">
+                <WorkspaceTabs />
+
+        <ModulePicker />
+            </div>
+
+       <!-- WORKSPACE HOST --> 
+
+        <main class="workspace-host">
+     
+            @ChildContent
+        </main>    
+        
+       
+
+    <ShellFooter />  
+</div>
+
+
+@code {
+   
+    [Parameter] public RenderFragment ChildContent { get; set; } = default!;
+
+    private string CurrentTheme = "theme-light";
+    
+
+    private List<string> Themes = new()
+    {
+        "theme-light",
+        "theme-dark",
+        "theme-highcontrast",
+        "theme-blue"
+    };  
+
+    // THEME
+    void ToggleTheme()
+    {
+        CurrentTheme = CurrentTheme switch
+        {
+            "theme-light" => "theme-dark",
+            "theme-dark" => "theme-highcontrast",
+            "theme-highcontrast" => "theme-blue",
+            "theme-blue" => "theme-light",
+            _ => "theme-light"
+        };
+    }
+
+    private void OpenModuleFromDropdown(ChangeEventArgs e)
+    {
+        var code = e.Value?.ToString();
+        if (!string.IsNullOrWhiteSpace(code))
+        {
+            Workspace.OpenModule(code);
+        }
+    }
+    void SetTheme(ChangeEventArgs e)
+    {
+        CurrentTheme = e.Value?.ToString();
+    }
+
+    // OPEN MODULE PICKER
+    private void ShowModulePicker()
+    {
+        Workspace.ShowPicker();
+    }
+
+    // LOGOUT
+    void Logout()
+    {
+        // TODO: implement logout logic
+    }
+
+    // WORKSPACE EVENTS
+    protected override void OnInitialized()
+    {
+        Workspace.OnChange += HandleChange;
+    }
+
+    private void HandleChange()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        Workspace.OnChange -= HandleChange;
+    }
+}

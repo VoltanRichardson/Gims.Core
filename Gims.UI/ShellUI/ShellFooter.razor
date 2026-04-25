@@ -1,0 +1,25 @@
+﻿<footer class="shell-footer @CssClass">
+    <span class="env-badge">@EnvironmentName</span>
+
+    <span class="footer-info">
+        © 2026 GIMS Platform — Build @BuildNumber
+    </span>
+
+    <span class="footer-spacer"></span>
+
+    <span class="footer-user">@UserName</span>
+
+    <nav class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+    </nav>
+</footer>
+
+@code {
+    [Parameter] public string EnvironmentName { get; set; } = "DEV";
+    [Parameter] public string BuildNumber { get; set; } = "1.0.0";
+    [Parameter] public string UserName { get; set; } = "Unknown User";
+    [Parameter] public bool Sticky { get; set; } = false;
+
+    private string CssClass => Sticky ? "sticky" : "";
+}

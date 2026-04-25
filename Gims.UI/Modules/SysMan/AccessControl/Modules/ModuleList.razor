@@ -1,0 +1,96 @@
+﻿@page "/sysman/modules"
+
+@using Gims.App.Modules.SysMan.Dto
+@using Gims.Contracts.Dto
+@using Gims.UI.Services
+@using Microsoft.JSInterop
+
+@inject ModulesApiClient Api
+@inject NavigationManager Nav
+@inject IJSRuntime JS
+
+<h3>Modules</h3>
+
+<div class="mb-3">
+    <button class="btn btn-primary" @onclick="CreateNew">New Module</button>
+</div>
+
+@if (modules is null)
+{
+    <p>Loading...</p>
+}
+else if (modules.Count == 0)
+{
+    <p>No modules found.</p>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Route Prefix</th>
+                <th>Default Route</th>
+                <th>Visible</th>
+                <th>Active</th>
+                <th>Enabled</th>
+                <th>Implemented</th>
+                <th>Roles</th>
+                <th>Submodules</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var m in modules)
+            {
+                <tr>
+                    <td>@m.Code</td>
+                    <td>@m.Name</td>
+                    <td>@m.RoutePrefix</td>
+                    <td>@m.DefaultRoute</td>
+                    <td>@(m.Visible ? "Yes" : "No")</td>
+                    <td>@(m.Active ? "Yes" : "No")</td>
+                    <td>@(m.IsEnabled ? "Yes" : "No")</td>
+                    <td>@(m.IsImplemented ? "Yes" : "No")</td>
+                    <td>@string.Join(", ", m.Roles)</td>
+                    <td>@m.Submodules.Count</td>
+                    <td class="text-end">
+                        <button class="btn btn-sm btn-secondary me-1" @onclick="() => Edit(m.Id)">Edit</button>
+                        <button class="btn btn-sm btn-danger" @onclick="() => Delete(m.Id)">Delete</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<ModuleDto>? modules;
+
+    protected override async Task OnInitializedAsync()
+    {
+        modules = await Api.GetModulesAsync();
+    }
+
+    private void CreateNew()
+    {
+        Nav.NavigateTo("/sysman/modules/new");
+    }
+
+    private void Edit(Guid id)
+    {
+        Nav.NavigateTo($"/sysman/modules/edit/{id}");
+    }
+
+    private async Task Delete(Guid id)
+    {
+        var confirmed = await JS.InvokeAsync<bool>("confirm", "Delete this module?");
+        if (!confirmed)
+            return;
+
+        await Api.DeleteModuleAsync(id);
+        modules = await Api.GetModulesAsync();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,27 @@
+﻿
+@namespace Gims.UI.Shared.ModuleLayout
+
+<div class="module-layout">
+    <div class="module-sidebar">
+        @Sidebar
+    </div>
+
+    <div class="module-main">
+        @if (CommandBar is not null)
+        {
+            <div class="module-commandbar">
+                @CommandBar
+            </div>
+        }
+
+        <div class="module-content">
+            @ChildContent
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter, EditorRequired] public RenderFragment Sidebar { get; set; }
+    [Parameter] public RenderFragment? CommandBar { get; set; }
+    [Parameter, EditorRequired] public RenderFragment ChildContent { get; set; }
+}

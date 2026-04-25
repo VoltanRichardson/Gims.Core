@@ -1,0 +1,37 @@
+﻿@using Gims.UI.Registry;
+@using Gims.UI.ShellUI.Workspace;
+
+@inject WorkspaceController Workspace
+
+@if (Workspace.IsPickerOpen)
+{
+    <div class="modal-backdrop" @onclick="Close"></div>
+
+    <div class="modal">
+        <h3>Select a Module</h3>
+
+        <ul class="module-list">
+            @foreach (var module in Modules)
+            {
+                <li @onclick="() => Select(module.Code)">
+                    @module.Name
+                </li>
+            }
+        </ul>
+
+        <button class="modal-close" @onclick="Close">Close</button>
+    </div>
+}
+<p>Modal Workspace ID: @Workspace.InstanceId</p>
+@code {
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public bool IsOpen { get; set; }
+    // Prevent null reference
+    [Parameter] public IEnumerable<UiModule> Modules { get; set; } = Enumerable.Empty<UiModule>();
+
+    [Parameter] public EventCallback<string> OnSelect { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    void Select(string code) => OnSelect.InvokeAsync(code);
+    void Close() => OnClose.InvokeAsync();
+}

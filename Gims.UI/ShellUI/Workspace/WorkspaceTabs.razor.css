@@ -1,0 +1,78 @@
+﻿.workspace-tabs-container {
+    width: 100%;
+    overflow: hidden;
+    border-bottom: 1px solid #ddd;
+    background: #f5f5f5;
+}
+
+.workspace-tabs {
+    display: flex;
+    gap: 4px;
+    padding: 4px 8px;
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.workspace-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #e6e6e6;
+    border-radius: 6px 6px 0 0;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    border: 1px solid transparent;
+    border-bottom: none;
+    white-space: nowrap;
+}
+
+    .workspace-tab:hover {
+        background: #dcdcdc;
+    }
+
+    .workspace-tab.active {
+        background: white;
+        border: 1px solid #ccc;
+        border-bottom: 1px solid white;
+        font-weight: 600;
+        color: #333;
+    }
+
+.tab-icon {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.tab-title {
+    pointer-events: none;
+}
+
+.tab-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    padding: 0;
+    margin-left: 4px;
+    color: #666;
+    transition: color 0.15s ease;
+}
+
+    .tab-close:hover {
+        color: #c00;
+    }
+
+.workspace-tabs::-webkit-scrollbar {
+    height: 6px;
+}
+
+.workspace-tabs::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+    .workspace-tabs::-webkit-scrollbar-thumb:hover {
+        background: #aaa;
+    }

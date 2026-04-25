@@ -1,12 +1,11 @@
-﻿using Gims.Core.Domain.Party;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Gims.Infrastructure.EF.Configurations.Party
 {
-    public class PartyConfiguration : IEntityTypeConfiguration<Gims.Core.Domain.Party.Party>
+    public class PartyConfiguration : IEntityTypeConfiguration<Core.Party.Party>
     {
-        public void Configure(EntityTypeBuilder<Gims.Core.Domain.Party.Party> builder)
+        public void Configure(EntityTypeBuilder<Core.Party.Party> builder)
         {
             builder.ToTable("Parties");
 

@@ -1,0 +1,13 @@
+﻿@using Gims.UI.ShellUI.Workspace
+
+<h3>ClaimUI</h3>
+@using Microsoft.AspNetCore.Components.Web
+
+<button @onclick='() => Console.WriteLine(" Claims button clicked")'>
+    Test Button
+</button>
+
+@code {
+    [CascadingParameter]
+    public WorkspaceController Workspace { get; set; }
+}

@@ -1,0 +1,17 @@
+{
+  "id": "33333333-3333-3333-3333-333333333333",
+  "code": "policy",
+  "name": "Policy",
+  "description": "Policy management module",
+  "routePrefix": "/policy",
+  "defaultRoute": "/policy/list",
+  "icon": "description",
+  "category": "core",
+  "tabPriority": 50,
+  "active": true,
+  "visible": true,
+  "isEnabled": false,
+  "isImplemented": false,
+  "roles": [ "Admin", "PolicyAdmin" ],
+  "submodules": []
+}

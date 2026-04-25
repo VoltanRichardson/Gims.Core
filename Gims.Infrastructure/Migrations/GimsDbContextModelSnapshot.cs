@@ -22,792 +22,361 @@ namespace Gims.Infrastructure.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CoverageType", b =>
+            modelBuilder.Entity("Gims.Core.SysMan.Entities.GimsModule", b =>
                 {
-                    b.Property<Guid>("CoverageTypeId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("CoverageTypeId");
-
-                    b.ToTable("CoverageTypes", (string)null);
-                });
-
-            modelBuilder.Entity("DocumentDocumentTag", b =>
-                {
-                    b.Property<Guid>("DocumentsDocumentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TagsDocumentTagId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DocumentsDocumentId", "TagsDocumentTagId");
-
-                    b.HasIndex("TagsDocumentTagId");
-
-                    b.ToTable("DocumentTagAssignments", (string)null);
-                });
-
-            modelBuilder.Entity("DocumentType", b =>
-                {
-                    b.Property<Guid>("DocumentTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("DocumentTypeId");
-
-                    b.ToTable("DocumentTypes", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Dms.Document", b =>
-                {
-                    b.Property<Guid>("DocumentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DocumentTypeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("DocumentId");
-
-                    b.HasIndex("DocumentTypeId");
-
-                    b.ToTable("Documents", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Dms.DocumentTag", b =>
-                {
-                    b.Property<Guid>("DocumentTagId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("DocumentTagId");
-
-                    b.ToTable("DocumentTags", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Dms.DocumentVersion", b =>
-                {
-                    b.Property<Guid>("DocumentVersionId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("DocumentId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<long>("FileSize")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("StoragePath")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("VersionNumber")
-                        .HasColumnType("int");
-
-                    b.HasKey("DocumentVersionId");
-
-                    b.HasIndex("DocumentId");
-
-                    b.ToTable("DocumentVersions", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Party.Party", b =>
-                {
-                    b.Property<Guid>("PartyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("PartyType")
-                        .HasColumnType("int");
-
-                    b.HasKey("PartyId");
-
-                    b.ToTable("Parties", (string)null);
-
-                    b.UseTptMappingStrategy();
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Policy.Policy", b =>
-                {
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("PolicyId");
-
-                    b.ToTable("Policies", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.ReinsuranceAllocation", b =>
-                {
-                    b.Property<Guid>("AllocationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("CededAmount")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<Guid>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TreatyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("AllocationId");
-
-                    b.HasIndex("TreatyId");
-
-                    b.ToTable("ReinsuranceAllocations", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.Reinsurer", b =>
-                {
-                    b.Property<Guid>("ReinsurerId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("LicenseNumber")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<Guid>("PartyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Rating")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.HasKey("ReinsurerId");
-
-                    b.HasIndex("PartyId");
-
-                    b.ToTable("Reinsurers", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.Treaty", b =>
-                {
-                    b.Property<Guid>("TreatyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal?>("Capacity")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("EffectiveFrom")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("EffectiveTo")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<decimal?>("Participation")
-                        .HasColumnType("decimal(5,2)");
-
-                    b.Property<decimal?>("Retention")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("TreatyNumber")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("int");
-
-                    b.HasKey("TreatyId");
-
-                    b.ToTable("Treaties");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.TreatyReinsurer", b =>
-                {
-                    b.Property<Guid>("TreatyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("ReinsurerId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("IsLead")
+                    b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<decimal?>("Share")
-                        .HasColumnType("decimal(5,2)");
+                    b.Property<string>("Category")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("TreatyId", "ReinsurerId");
-
-                    b.HasIndex("ReinsurerId");
-
-                    b.ToTable("TreatyReinsurers", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Workflow.FunctionGroup", b =>
-                {
-                    b.Property<Guid>("FunctionGroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
+                    b.Property<string>("Code")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("FunctionGroupId");
-
-                    b.ToTable("FunctionGroups", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Workflow.FunctionTask", b =>
-                {
-                    b.Property<Guid>("FunctionTaskId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<Guid>("FunctionGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("PermissionKey")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Route")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("FunctionTaskId");
-
-                    b.HasIndex("FunctionGroupId");
-
-                    b.ToTable("FunctionTasks", (string)null);
-                });
-
-            modelBuilder.Entity("InsureItem", b =>
-                {
-                    b.Property<Guid>("InsureItemId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<decimal?>("SumInsured")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Usage")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("InsureItemId");
-
-                    b.ToTable("InsureItems", (string)null);
-                });
-
-            modelBuilder.Entity("InsureItemGroup", b =>
-                {
-                    b.Property<Guid>("InsureItemGroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<Guid?>("PolicyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("InsureItemGroupId");
-
-                    b.HasIndex("PolicyId");
-
-                    b.ToTable("InsureItemGroups", (string)null);
-                });
-
-            modelBuilder.Entity("InsureItemGroupLink", b =>
-                {
-                    b.Property<Guid>("InsureItemGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InsureItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("InsureItemGroupId", "InsureItemId");
-
-                    b.HasIndex("InsureItemId");
-
-                    b.ToTable("InsureItemGroupLinks", (string)null);
-                });
-
-            modelBuilder.Entity("RiskGroup", b =>
-                {
-                    b.Property<Guid>("RiskGroupId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("RiskGroupId");
-
-                    b.ToTable("RiskGroups", (string)null);
-                });
-
-            modelBuilder.Entity("RiskGroupItemLink", b =>
-                {
-                    b.Property<Guid>("RiskGroupId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("InsureItemId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("RiskGroupId", "InsureItemId");
-
-                    b.HasIndex("InsureItemId");
-
-                    b.ToTable("RiskGroupItemLinks", (string)null);
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Party.Organization", b =>
-                {
-                    b.HasBaseType("Gims.Core.Domain.Party.Party");
-
-                    b.Property<string>("LegalName")
+                    b.Property<string>("DefaultRoute")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TradingName")
+                    b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Organizations", (string)null);
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsImplemented")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsPublic")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LayoutType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("Roles")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoutePrefix")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Submodules")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Visible")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GimsModules", (string)null);
                 });
 
-            modelBuilder.Entity("Gims.Core.Domain.Party.Person", b =>
+            modelBuilder.Entity("Gims.Core.SysMan.Entities.GimsRoleModule", b =>
                 {
-                    b.HasBaseType("Gims.Core.Domain.Party.Party");
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("DateOfBirth")
+                    b.Property<Guid>("ModuleId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("RoleId", "ModuleId");
+
+                    b.HasIndex("ModuleId");
+
+                    b.ToTable("GimsRoleModules", (string)null);
+                });
+
+            modelBuilder.Entity("Gims.Core.SysMan.Entities.GimsUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastLoginAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("LastName")
-                        .IsRequired()
+                    b.Property<string>("PhoneNumber")
                         .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Persons", (string)null);
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("DocumentDocumentTag", b =>
+            modelBuilder.Entity("GimsUserRole", b =>
                 {
-                    b.HasOne("Gims.Core.Domain.Dms.Document", null)
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Gims.Core.SysMan.Entities.GimsRoleModule", b =>
+                {
+                    b.HasOne("Gims.Core.SysMan.Entities.GimsModule", "Module")
                         .WithMany()
-                        .HasForeignKey("DocumentsDocumentId")
+                        .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Gims.Core.Domain.Dms.DocumentTag", null)
+                    b.HasOne("GimsUserRole", "Role")
                         .WithMany()
-                        .HasForeignKey("TagsDocumentTagId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Module");
+
+                    b.Navigation("Role");
                 });
 
-            modelBuilder.Entity("Gims.Core.Domain.Dms.Document", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("DocumentType", "Type")
+                    b.HasOne("GimsUserRole", null)
                         .WithMany()
-                        .HasForeignKey("DocumentTypeId")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Type");
                 });
 
-            modelBuilder.Entity("Gims.Core.Domain.Dms.DocumentVersion", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Gims.Core.Domain.Dms.Document", "Document")
-                        .WithMany("Versions")
-                        .HasForeignKey("DocumentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Document");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Party.Party", b =>
-                {
-                    b.OwnsOne("Gims.Core.Domain.Party.Address", "Address", b1 =>
-                        {
-                            b1.Property<Guid>("PartyId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("City")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("City");
-
-                            b1.Property<string>("Country")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Country");
-
-                            b1.Property<string>("Line1")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("AddressLine1");
-
-                            b1.Property<string>("Line2")
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("AddressLine2");
-
-                            b1.Property<string>("PostalCode")
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("PostalCode");
-
-                            b1.HasKey("PartyId");
-
-                            b1.ToTable("Parties");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PartyId");
-                        });
-
-                    b.OwnsOne("Gims.Core.Domain.Party.ContactInfo", "ContactInfo", b1 =>
-                        {
-                            b1.Property<Guid>("PartyId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Email")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Email");
-
-                            b1.Property<string>("Phone")
-                                .HasColumnType("nvarchar(max)")
-                                .HasColumnName("Phone");
-
-                            b1.HasKey("PartyId");
-
-                            b1.ToTable("Parties");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PartyId");
-                        });
-
-                    b.OwnsMany("Gims.Core.Domain.Party.Identifier", "Identifiers", b1 =>
-                        {
-                            b1.Property<Guid>("PartyId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Value")
-                                .HasMaxLength(200)
-                                .HasColumnType("nvarchar(200)")
-                                .HasColumnName("IdentifierValue");
-
-                            b1.Property<string>("Type")
-                                .IsRequired()
-                                .HasMaxLength(100)
-                                .HasColumnType("nvarchar(100)")
-                                .HasColumnName("IdentifierType");
-
-                            b1.HasKey("PartyId", "Value");
-
-                            b1.ToTable("PartyIdentifiers", (string)null);
-
-                            b1.WithOwner()
-                                .HasForeignKey("PartyId");
-                        });
-
-                    b.Navigation("Address");
-
-                    b.Navigation("ContactInfo")
-                        .IsRequired();
-
-                    b.Navigation("Identifiers");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Policy.Policy", b =>
-                {
-                    b.OwnsOne("Gims.Core.Domain.Policy.PolicyNumber", "PolicyNumber", b1 =>
-                        {
-                            b1.Property<Guid>("PolicyId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<string>("Value")
-                                .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("nvarchar(50)")
-                                .HasColumnName("PolicyNumber");
-
-                            b1.HasKey("PolicyId");
-
-                            b1.ToTable("Policies");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PolicyId");
-                        });
-
-                    b.OwnsOne("Gims.Core.Domain.Policy.PolicyPeriod", "PolicyPeriod", b1 =>
-                        {
-                            b1.Property<Guid>("PolicyId")
-                                .HasColumnType("uniqueidentifier");
-
-                            b1.Property<DateTime>("EndDate")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("EffectiveTo");
-
-                            b1.Property<DateTime>("StartDate")
-                                .HasColumnType("datetime2")
-                                .HasColumnName("EffectiveFrom");
-
-                            b1.HasKey("PolicyId");
-
-                            b1.ToTable("Policies");
-
-                            b1.WithOwner()
-                                .HasForeignKey("PolicyId");
-                        });
-
-                    b.Navigation("PolicyNumber")
-                        .IsRequired();
-
-                    b.Navigation("PolicyPeriod")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.ReinsuranceAllocation", b =>
-                {
-                    b.HasOne("Gims.Core.Domain.Reinsurance.Treaty", null)
+                    b.HasOne("Gims.Core.SysMan.Entities.GimsUser", null)
                         .WithMany()
-                        .HasForeignKey("TreatyId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.Reinsurer", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Gims.Core.Domain.Party.Party", "Party")
+                    b.HasOne("Gims.Core.SysMan.Entities.GimsUser", null)
                         .WithMany()
-                        .HasForeignKey("PartyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Party");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.TreatyReinsurer", b =>
-                {
-                    b.HasOne("Gims.Core.Domain.Reinsurance.Reinsurer", "Reinsurer")
-                        .WithMany("TreatyReinsurers")
-                        .HasForeignKey("ReinsurerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Gims.Core.Domain.Reinsurance.Treaty", "Treaty")
-                        .WithMany("TreatyReinsurers")
-                        .HasForeignKey("TreatyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reinsurer");
-
-                    b.Navigation("Treaty");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Workflow.FunctionTask", b =>
-                {
-                    b.HasOne("Gims.Core.Domain.Workflow.FunctionGroup", null)
-                        .WithMany("Tasks")
-                        .HasForeignKey("FunctionGroupId")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("InsureItemGroup", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
-                    b.HasOne("Gims.Core.Domain.Policy.Policy", "Policy")
-                        .WithMany("ItemGroups")
-                        .HasForeignKey("PolicyId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("Policy");
-                });
-
-            modelBuilder.Entity("InsureItemGroupLink", b =>
-                {
-                    b.HasOne("InsureItemGroup", "InsureItemGroup")
-                        .WithMany("ItemLinks")
-                        .HasForeignKey("InsureItemGroupId")
+                    b.HasOne("GimsUserRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("InsureItem", "InsureItem")
-                        .WithMany("GroupLinks")
-                        .HasForeignKey("InsureItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InsureItem");
-
-                    b.Navigation("InsureItemGroup");
-                });
-
-            modelBuilder.Entity("RiskGroupItemLink", b =>
-                {
-                    b.HasOne("InsureItem", "InsureItem")
-                        .WithMany("RiskLinks")
-                        .HasForeignKey("InsureItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("RiskGroup", "RiskGroup")
-                        .WithMany("ItemLinks")
-                        .HasForeignKey("RiskGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("InsureItem");
-
-                    b.Navigation("RiskGroup");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Party.Organization", b =>
-                {
-                    b.HasOne("Gims.Core.Domain.Party.Party", null)
-                        .WithOne()
-                        .HasForeignKey("Gims.Core.Domain.Party.Organization", "PartyId")
+                    b.HasOne("Gims.Core.SysMan.Entities.GimsUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Gims.Core.Domain.Party.Person", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Gims.Core.Domain.Party.Party", null)
-                        .WithOne()
-                        .HasForeignKey("Gims.Core.Domain.Party.Person", "PartyId")
+                    b.HasOne("Gims.Core.SysMan.Entities.GimsUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Dms.Document", b =>
-                {
-                    b.Navigation("Versions");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Policy.Policy", b =>
-                {
-                    b.Navigation("ItemGroups");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.Reinsurer", b =>
-                {
-                    b.Navigation("TreatyReinsurers");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Reinsurance.Treaty", b =>
-                {
-                    b.Navigation("TreatyReinsurers");
-                });
-
-            modelBuilder.Entity("Gims.Core.Domain.Workflow.FunctionGroup", b =>
-                {
-                    b.Navigation("Tasks");
-                });
-
-            modelBuilder.Entity("InsureItem", b =>
-                {
-                    b.Navigation("GroupLinks");
-
-                    b.Navigation("RiskLinks");
-                });
-
-            modelBuilder.Entity("InsureItemGroup", b =>
-                {
-                    b.Navigation("ItemLinks");
-                });
-
-            modelBuilder.Entity("RiskGroup", b =>
-                {
-                    b.Navigation("ItemLinks");
                 });
 #pragma warning restore 612, 618
         }

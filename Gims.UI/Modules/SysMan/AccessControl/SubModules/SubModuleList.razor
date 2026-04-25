@@ -1,0 +1,106 @@
+﻿@page "/sysman/modules/{ModuleId:guid}/submodules"
+
+@using Gims.App.Modules.SysMan.Dto
+@using Gims.Contracts.Dto
+@using Gims.UI.Services
+
+@inject ModulesApiClient Api
+@inject NavigationManager Nav
+
+<h3 class="mb-3">Submodules</h3>
+
+@if (module is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div class="mb-3">
+        <button class="btn btn-primary" @onclick="AddSubmodule">Add Submodule</button>
+        <button class="btn btn-secondary ms-2" @onclick="BackToModule">Back to Module</button>
+    </div>
+
+    @if (module.Submodules.Count == 0)
+    {
+        <p>No submodules found.</p>
+    }
+    else
+    {
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Code</th>
+                    <th>Name</th>
+                    <th>Route</th>
+                    <th>Visible</th>
+                    <th>Active</th>
+                    <th>Enabled</th>
+                    <th>Implemented</th>
+                    <th>Roles</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var s in module.Submodules.OrderBy(s => s.Code))
+                {
+                    <tr>
+                        <td>@s.Code</td>
+                        <td>@s.Name</td>
+                        <td>@s.Route</td>
+                        <td>@(s.Visible ? "Yes" : "No")</td>
+                        <td>@(s.Active ? "Yes" : "No")</td>
+                        <td>@(s.IsEnabled ? "Yes" : "No")</td>
+                        <td>@(s.IsImplemented ? "Yes" : "No")</td>
+                        <td>@string.Join(", ", s.Roles)</td>
+                        <td class="text-end">
+                            <button class="btn btn-sm btn-secondary me-1" @onclick="() => EditSubmodule(s.Id)">Edit</button>
+                            <button class="btn btn-sm btn-danger" @onclick="() => RemoveSubmodule(s.Id)">Remove</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
+@code {
+    [Parameter] public Guid ModuleId { get; set; }
+
+    private ModuleDto? module;
+
+    protected override async Task OnInitializedAsync()
+    {
+        module = await Api.GetModuleAsync(ModuleId);
+    }
+
+    private void AddSubmodule()
+    {
+        Nav.NavigateTo($"/sysman/modules/{ModuleId}/submodules/add");
+    }
+
+    private void EditSubmodule(Guid submoduleId)
+    {
+        Nav.NavigateTo($"/sysman/modules/{ModuleId}/submodules/edit/{submoduleId}");
+    }
+
+    private async Task RemoveSubmodule(Guid submoduleId)
+    {
+        var sub = module.Submodules.FirstOrDefault(s => s.Id == submoduleId);
+        if (sub is null)
+            return;
+
+        module.Submodules.Remove(sub);
+
+        // Save the updated module (submodules replaced in service)
+        await Api.UpdateModuleAsync(module);
+
+        // Refresh
+        module = await Api.GetModuleAsync(ModuleId);
+        StateHasChanged();
+    }
+
+    private void BackToModule()
+    {
+        Nav.NavigateTo($"/sysman/modules/edit/{ModuleId}");
+    }
+}

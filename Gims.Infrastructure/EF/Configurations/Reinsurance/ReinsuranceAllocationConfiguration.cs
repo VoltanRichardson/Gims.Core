@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Gims.Core.Domain.Reinsurance;
+using Gims.Core.Reinsurance;
 
 namespace Gims.Infrastructure.EF.Configurations.Reinsurance
 {

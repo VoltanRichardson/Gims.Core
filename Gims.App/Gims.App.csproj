@@ -12,12 +12,24 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Configuration\" />
     <Folder Include="Layout\" />
-    <Folder Include="Navigation\" />
-    <Folder Include="AppState\" />
+    <Folder Include="Modules\Quotation\Components\" />
+    <Folder Include="Modules\Quotation\Config\" />
+    <Folder Include="Modules\Quotation\Pages\" />
+    <Folder Include="Modules\Risk\" />
+    <Folder Include="Modules\Policy\" />
     <Folder Include="ModuleConfigProvider\" />
+    <Folder Include="Modules\SysMan\Services\" />
+    <Folder Include="Services\" />
     <Folder Include="Pages\" />
     <Folder Include="Sidebar\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Gims.Contracts\Gims.Contracts.csproj" />
+    <ProjectReference Include="..\Gims.Core\Gims.Core.csproj" />
+    <ProjectReference Include="..\Gims.Infrastructure\Gims.Infrastructure.csproj" />
   </ItemGroup>
 
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Gims.Core.Domain.Workflow;
+using Gims.Core.Workflow;
 
 namespace Gims.Infrastructure.EF.Configurations.Workflow;
 public class FunctionTaskConfiguration : IEntityTypeConfiguration<FunctionTask>

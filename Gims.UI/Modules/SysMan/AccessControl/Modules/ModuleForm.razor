@@ -1,0 +1,209 @@
+﻿@page "/sysman/modules/add"
+@page "/sysman/modules/edit/{Id:guid}"
+
+@using Gims.App.Modules.SysMan.Dto
+@using Gims.Contracts.Dto
+@using Gims.UI.Services
+@using Microsoft.AspNetCore.Components.Forms
+.AspNetCore.Components.Forms
+
+@inject NavigationManager Navigation
+@inject ModulesApiClient ModulesApi
+
+<h3 class="mb-3">@((IsEdit ? "Edit Module" : "New Module"))</h3>
+
+@if (module is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="module" OnValidSubmit="SaveModule">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="card p-4">
+
+            <!-- Identity -->
+            <div class="mb-3">
+                <label class="form-label">Code</label>
+                <InputText class="form-control" @bind-Value="module.Code" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <InputText class="form-control" @bind-Value="module.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <InputTextArea class="form-control" @bind-Value="module.Description" />
+            </div>
+
+            <!-- Routing -->
+            <div class="mb-3">
+                <label class="form-label">Route Prefix</label>
+                <InputText class="form-control" @bind-Value="module.RoutePrefix" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Default Route</label>
+                <InputText class="form-control" @bind-Value="module.DefaultRoute" />
+            </div>
+
+            <!-- UI Metadata -->
+            <div class="mb-3">
+                <label class="form-label">Icon</label>
+                <InputText class="form-control" @bind-Value="module.Icon" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Layout Type</label>
+                <InputText class="form-control" @bind-Value="module.LayoutType" />
+            </div>
+
+            <!-- Flags -->
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="module.Visible" />
+                <label class="form-check-label">Visible</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="module.Active" />
+                <label class="form-check-label">Active</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="module.IsPublic" />
+                <label class="form-check-label">Public</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="module.IsEnabled" />
+                <label class="form-check-label">Enabled</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="module.IsImplemented" />
+                <label class="form-check-label">Implemented</label>
+            </div>
+
+            <!-- Roles -->
+            <div class="mb-3">
+                <label class="form-label">Roles (comma-separated)</label>
+                <InputText class="form-control" @bind-Value="rolesText" />
+            </div>
+
+            <hr />
+
+            <!-- Submodules -->
+            <h5>Submodules</h5>
+
+            <div class="mb-3">
+                <button class="btn btn-secondary" @onclick="AddSubmodule">Add Submodule</button>
+            </div>
+
+            @if (module.Submodules.Count == 0)
+            {
+                <p>No submodules defined.</p>
+            }
+            else
+            {
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Route</th>
+                            <th>Enabled</th>
+                            <th>Implemented</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var s in module.Submodules)
+                        {
+                            <tr>
+                                <td>@s.Code</td>
+                                <td>@s.Name</td>
+                                <td>@s.Route</td>
+                                <td>@(s.IsEnabled ? "Yes" : "No")</td>
+                                <td>@(s.IsImplemented ? "Yes" : "No")</td>
+                                <td class="text-end">
+                                    <button class="btn btn-sm btn-secondary me-1" @onclick="() => EditSubmodule(s)">Edit</button>
+                                    <button class="btn btn-sm btn-danger" @onclick="() => RemoveSubmodule(s)">Remove</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+
+            <hr />
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-secondary" type="button" @onclick="Cancel">Cancel</button>
+            </div>
+
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public Guid? Id { get; set; }
+
+    private ModuleDto? module;
+    private bool IsEdit => Id.HasValue;
+
+    private string rolesText = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (IsEdit)
+        {
+            module = await ModulesApi.GetModuleAsync(Id!.Value);
+        }
+        else
+        {
+            module = new ModuleDto();
+        }
+
+        rolesText = string.Join(", ", module.Roles);
+    }
+
+    private async Task SaveModule()
+    {
+        module.Roles = rolesText
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(r => r.Trim())
+            .ToList();
+
+        if (IsEdit)
+            await ModulesApi.UpdateModuleAsync(module);
+        else
+            await ModulesApi.CreateModuleAsync(module);
+
+        Navigation.NavigateTo("/sysman/modules");
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/sysman/modules");
+    }
+
+    private void AddSubmodule()
+    {
+        Navigation.NavigateTo($"/sysman/modules/{(IsEdit ? Id : Guid.Empty)}/submodules/add");
+    }
+
+    private void EditSubmodule(SubmoduleDto s)
+    {
+        Navigation.NavigateTo($"/sysman/modules/{(IsEdit ? Id : Guid.Empty)}/submodules/edit/{s.Id}");
+    }
+
+    private void RemoveSubmodule(SubmoduleDto s)
+    {
+        module.Submodules.Remove(s);
+    }
+}

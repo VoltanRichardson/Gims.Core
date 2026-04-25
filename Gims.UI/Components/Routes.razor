@@ -1,0 +1,31 @@
+﻿@using Gims.UI.Layout
+@using Gims.UI.ShellUI
+@using Gims.UI.ShellUI.Workspace
+
+<Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+           <RouteView RouteData="@routeData"
+            DefaultLayout="@typeof(MainLayout)" />
+    </Found>
+
+    <NotFound>
+        <p>Page not found.</p>
+    </NotFound>
+</Router>
+
+@* <Router AppAssembly="@typeof(Program).Assembly">
+    <Found Context="routeData">
+        <PortalShell>
+            <ShellChrome>
+                <WorkspaceHost>
+                    <RouteView RouteData="@routeData"
+                               DefaultLayout="@typeof(MainLayout)" />
+                </WorkspaceHost>
+            </ShellChrome>
+        </PortalShell>
+    </Found>
+
+    <NotFound>
+        <p>Page not found.</p>
+    </NotFound>
+</Router> *@

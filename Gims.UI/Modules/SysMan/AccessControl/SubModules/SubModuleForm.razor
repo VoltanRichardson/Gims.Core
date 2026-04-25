@@ -1,0 +1,161 @@
+﻿@page "/sysman/modules/{ModuleId:guid}/submodules/add"
+@page "/sysman/modules/{ModuleId:guid}/submodules/edit/{SubmoduleId:guid}"
+
+@using Gims.App.Modules.SysMan.Dto
+@using Gims.Contracts.Dto
+@using Gims.UI.Services
+@using Microsoft.AspNetCore.Components.Forms
+.AspNetCore.Components.Forms
+
+@inject NavigationManager Nav
+@inject ModulesApiClient Api
+
+<h3 class="mb-3">@((IsEdit ? "Edit Submodule" : "New Submodule"))</h3>
+
+@if (module is null || submodule is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <EditForm Model="submodule" OnValidSubmit="SaveSubmodule">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="card p-4">
+
+            <!-- Identity -->
+            <div class="mb-3">
+                <label class="form-label">Code</label>
+                <InputText class="form-control" @bind-Value="submodule.Code" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <InputText class="form-control" @bind-Value="submodule.Name" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <InputTextArea class="form-control" @bind-Value="submodule.Description" />
+            </div>
+
+            <!-- Routing -->
+            <div class="mb-3">
+                <label class="form-label">Route</label>
+                <InputText class="form-control" @bind-Value="submodule.Route" />
+            </div>
+
+            <!-- UI Metadata -->
+            <div class="mb-3">
+                <label class="form-label">Icon</label>
+                <InputText class="form-control" @bind-Value="submodule.Icon" />
+            </div>
+
+            <!-- Flags -->
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="submodule.Visible" />
+                <label class="form-check-label">Visible</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="submodule.Active" />
+                <label class="form-check-label">Active</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="submodule.IsEnabled" />
+                <label class="form-check-label">Enabled</label>
+            </div>
+
+            <div class="form-check mb-2">
+                <InputCheckbox class="form-check-input" @bind-Value="submodule.IsImplemented" />
+                <label class="form-check-label">Implemented</label>
+            </div>
+
+            <!-- Roles -->
+            <div class="mb-3">
+                <label class="form-label">Roles (comma-separated)</label>
+                <InputText class="form-control" @bind-Value="rolesText" />
+            </div>
+
+            <hr />
+
+            <div class="d-flex gap-2">
+                <button class="btn btn-primary" type="submit">Save</button>
+                <button class="btn btn-secondary" type="button" @onclick="Cancel">Cancel</button>
+            </div>
+
+        </div>
+    </EditForm>
+}
+
+@code {
+    [Parameter] public Guid ModuleId { get; set; }
+    [Parameter] public Guid? SubmoduleId { get; set; }
+
+    private ModuleDto? module;
+    private SubmoduleDto? submodule;
+
+    private bool IsEdit => SubmoduleId.HasValue;
+
+    private string rolesText = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        module = await Api.GetModuleAsync(ModuleId);
+
+        if (module is null)
+        {
+            Nav.NavigateTo("/sysman/modules");
+            return;
+        }
+
+        if (IsEdit)
+        {
+            submodule = module.Submodules.FirstOrDefault(s => s.Id == SubmoduleId);
+            if (submodule is null)
+            {
+                Nav.NavigateTo($"/sysman/modules/{ModuleId}/submodules");
+                return;
+            }
+        }
+        else
+        {
+            submodule = new SubmoduleDto();
+        }
+
+        rolesText = string.Join(", ", submodule.Roles);
+    }
+
+    private async Task SaveSubmodule()
+    {
+        submodule.Roles = rolesText
+            .Split(',', StringSplitOptions.RemoveEmptyEntries)
+            .Select(r => r.Trim())
+            .ToList();
+
+        if (IsEdit)
+        {
+            // Replace existing submodule
+            var existing = module.Submodules.First(s => s.Id == SubmoduleId);
+            module.Submodules.Remove(existing);
+        }
+        else
+        {
+            // Assign new ID for new submodule
+            submodule.Id = Guid.NewGuid();
+        }
+
+        module.Submodules.Add(submodule);
+
+        await Api.UpdateModuleAsync(module);
+
+        Nav.NavigateTo($"/sysman/modules/{ModuleId}/submodules");
+    }
+
+    private void Cancel()
+    {
+        Nav.NavigateTo($"/sysman/modules/{ModuleId}/submodules");
+    }
+}

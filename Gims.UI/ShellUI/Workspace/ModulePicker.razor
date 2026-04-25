@@ -1,0 +1,77 @@
+﻿@namespace Gims.UI.ShellUI.Workspace
+@using Gims.UI.Registry
+@inject WorkspaceController Workspace
+@implements IDisposable
+
+@if (Workspace.IsPickerOpen)
+{
+    <div class="module-picker-overlay"
+         style="position:fixed; inset:0; background:rgba(0,0,0,0.4);
+        z-index:2147483646;"
+         @onclick="Close">
+
+        <div style="position:fixed; top:20%; left:50%; transform:translateX(-50%);
+            width:420px; max-height:60vh; overflow:auto;
+            background:white; padding:20px;
+            border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.25);
+            z-index:2147483647; pointer-events:auto;"
+             @onclick='PanelClick'
+             @onclick:stopPropagation="true"
+             @onclick:preventDefault="true">
+
+            <h3 style="margin-top:0;">Select a Module</h3>
+
+            @foreach (var mod in Workspace.AvailableModules)
+            {
+                <div class="module-item"
+                     style="padding:10px; margin:6px 0; background:#eee;
+                    border:1px solid #ccc; border-radius:8px;
+                    cursor:pointer; user-select:none; pointer-events:auto;"
+                     @onclick='() => SelectModule(mod)'
+                     @onclick:stopPropagation="true">
+                    @mod.Name
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code
+{
+    private Action? _handler;
+
+    protected override void OnInitialized()
+    {
+        Console.WriteLine(">>> ModulePicker.OnInitialized");
+        _handler = () => InvokeAsync(StateHasChanged);
+        Workspace.OnChange += _handler;
+    }
+
+    public void Dispose()
+    {
+        Console.WriteLine(">>> ModulePicker.Dispose");
+        if (_handler is not null)
+            Workspace.OnChange -= _handler;
+    }
+
+    private void Close()
+    {
+        Console.WriteLine(">>> ModulePicker.Close (overlay clicked)");
+        Workspace.HidePicker();
+    }
+
+    private void PanelClick()
+    {
+        // This exists mainly to guarantee the stopPropagation hook attaches.
+        Console.WriteLine(">>> ModulePicker.PanelClick");
+    }
+
+    private void SelectModule(UiModule mod)
+    {
+        Console.WriteLine($">>> ModulePicker.SelectModule: {mod.Code}");
+        Workspace.OpenModule(mod.Code);
+        // OpenModule already sets IsPickerOpen=false in your controller,
+        // but keeping HidePicker is fine.
+        Workspace.HidePicker();
+    }
+}
